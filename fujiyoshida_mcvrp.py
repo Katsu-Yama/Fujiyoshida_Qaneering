@@ -339,22 +339,22 @@ def draw_route(m, G, best_routes, path_df, node_name_list):
                 # サブグラフにエッジが無い場合は無視
                 if subG.number_of_edges() == 0:
                     continue
-+            # ────────────────────────────────────────────────
-+            # 空ルート（ノード1個）やエッジ無しサブグラフをスキップ
-+            if len(route_nodes) < 2:
-+                continue
-+
-+            route_nodes = [int(n) for n in route_nodes]       # 文字列→int
-+            subG = G.subgraph(route_nodes)
-+            if subG.number_of_edges() == 0:                   # ←★重要★
-+                continue
-+
-+            route_gdf = ox.graph_to_gdfs(subG, nodes=False)
-+            route_gdf.explore(
-+                m       = layer,
-+                color   = _colors[k % len(_colors)],
-+                style_kwds = {"weight": 10.0, "opacity": 0.5},
-+            )
+                # ────────────────────────────────────────────────
+                # 空ルート（ノード1個）やエッジ無しサブグラフをスキップ
+                if len(route_nodes) < 2:
+                    continue
+
+                route_nodes = [int(n) for n in route_nodes]       # 文字列→int
+                subG = G.subgraph(route_nodes)
+                if subG.number_of_edges() == 0:                   # ←★重要★
+                    continue
+
+                route_gdf = ox.graph_to_gdfs(subG, nodes=False)
+                route_gdf.explore(
+                    m       = layer,
+                    color   = _colors[k % len(_colors)],
+                    style_kwds = {"weight": 10.0, "opacity": 0.5},
+                )
     #folium.LayerControl().add_to(m)
     return m
 
