@@ -42,7 +42,7 @@ time_annering = 10000
 ##############################
 # 対象とする都道府県、市区名(Open Street Mapのロードデータ使用範囲を指定）
 state_name = 'Yamanashi'
-city_name = 'Fujiyoshida'
+city_name = ('Fujiyoshida', 'Oshino')
 
 ##############################
 # 対象地域のマップ表示中心座標
