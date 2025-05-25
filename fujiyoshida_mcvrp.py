@@ -169,12 +169,12 @@ _colors = [
 ####################################
 root_dir = os.getcwd()  # 作業ディレクトリを基準にファイルを読み込む
 
-node_data = "kyoten_geocode.json"        # 拠点データ(JSON)
+node_data = "fujiyoshida_kyoten_geocode.json"        # 拠点データ(JSON)
 num_of_people = "number_of_people.csv"  # 被災者数データ(CSV)
 
 toyohashi_geojson = os.path.join(root_dir, "toyohashi.geojson")   # 対象市域だけの GeoJSON
 
-route_file = "path_list.json"  # 経路リストデータ(JSON)
+route_file = "path_list_fujiyoshida.json"  # 経路リストデータ(JSON)
 Map_Tile = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'  # 背景地図タイルURL
 
 #################################
