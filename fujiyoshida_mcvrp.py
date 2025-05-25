@@ -306,16 +306,45 @@ def draw_route(m, G, best_routes, path_df, node_name_list):
 
         # 各区間をルートジオメトリとして描画
         for iv in range(len(vehicle_route) - 1):
-            start_node = node_name_list[vehicle_route[iv]]
-            goal_node = node_name_list[vehicle_route[iv + 1]]
-            route = path_df[(path_df['start_node'] == start_node) & (path_df['goal_node'] == goal_node)]['route']
-            for route_nodes in route:
-              route_gdf = ox.graph_to_gdfs(G.subgraph(route_nodes), nodes=False)
-              route_gdf.explore(
-                  m = layer,  # folium.FeatureGroupオブジェクトを指定
-                  color = _colors[k % len(_colors)],
-                  style_kwds = {"weight": 10.0, "opacity": 0.5},
-              )
+            start_node = int(node_name_list[vehicle_route[iv]])
+            goal_node  = int(node_name_list[vehicle_route[iv + 1]])
+
+            route_series = path_df[
+                (path_df['start_node'] == start_node) &
+                (path_df['goal_node'] == goal_node)
+            ]['route']
+
+            # ① 経路テーブルに該当行が無い場合は最短経路を都度計算
+            if route_series.empty:
+                try:
+                    route_candidates = [nx.shortest_path(G, start_node, goal_node,
+                                                         weight='length')]
+                except nx.NetworkXNoPath:
+                    # ルートそのものが存在しない場合はスキップ
+                    continue
+            else:
+                route_candidates = route_series.iloc[0]
+                # JSON 仕様によっては二重配列になっているので平坦化
+                if isinstance(route_candidates[0], (int, np.integer)):
+                    route_candidates = [route_candidates]
+
+            # ② それぞれのルートを描画
+            for route_nodes in route_candidates:
+                # ノードが 1 個だけ → エッジ無しなのでスキップ
+                if len(route_nodes) < 2:
+                    continue
+                # ノードを整数化（文字列混入対策）
+                route_nodes = [int(n) for n in route_nodes]
+                subG = G.subgraph(route_nodes)
+                # サブグラフにエッジが無い場合は無視
+                if subG.number_of_edges() == 0:
+                    continue
+                route_gdf = ox.graph_to_gdfs(subG, nodes=False)
+                route_gdf.explore(
+                    m       = layer,
+                    color   = _colors[k % len(_colors)],
+                    style_kwds = {"weight": 10.0, "opacity": 0.5},
+                )
     #folium.LayerControl().add_to(m)
     return m
 
