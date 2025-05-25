@@ -803,10 +803,24 @@ if anr_st.button("最適経路探索開始", key="btn_optimize_start"):
                 for _ in range(loop_max):
                     result = sovle_annering(model, client, num_annering, time_annering)
                     
-                    # --- 追加：Amplify 返却値の可視化 -------------------------
-                    st.write("⬇️ Amplify result object ↓")
-                    st.json(result.to_dict())      # status, timetable, objective などを丸ごと確認
-                    # ---------------------------------------------------------
+                    st.subheader("📊 Amplify 返却内容デバッグ")
+                    # 1) 解が返ってきているか
+                    st.write("solutions の長さ :", len(result.solutions))            # 0 なら解そのものが無い
+                    
+                    # 2) ソルバー側のステータス (FixstarsClient.Result)
+                    st.write("solver status    :", getattr(result.client_result, "status", "N/A"))
+                    
+                    # 3) 最良解の概要を確認
+                    if result.solutions:      # 1 件でもあれば True
+                        best = result.best    # 最良解オブジェクト
+                        st.write("objective :", best.objective)           # 目的関数値
+                        st.write("feasible  :", best.feasible)            # 制約を満たしているか
+                        # 変数が多いと表示が重くなるので先頭 20 個だけ
+                        preview = {str(k): v for k, v in list(best.values.items())[:20]}
+                        st.json(preview)      # JSON 形式で可視化
+                    else:
+                        st.warning("Amplify から解が返っていません（constraints / timeout を疑ってください）")
+                    # ------------------------------------------------------
                     
                     x_values = result.best.values
                     solution = x.evaluate(x_values)
