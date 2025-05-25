@@ -802,6 +802,12 @@ if anr_st.button("最適経路探索開始", key="btn_optimize_start"):
                 best_obj = None
                 for _ in range(loop_max):
                     result = sovle_annering(model, client, num_annering, time_annering)
+                    
+                    # --- 追加：Amplify 返却値の可視化 -------------------------
+                    st.write("⬇️ Amplify result object ↓")
+                    st.json(result.to_dict())      # status, timetable, objective などを丸ごと確認
+                    # ---------------------------------------------------------
+                    
                     x_values = result.best.values
                     solution = x.evaluate(x_values)
                     sequence = onehot2sequence(solution)
