@@ -101,8 +101,6 @@ for key in [
     "annering_param",
     "num_of_people",
     "shelter_df",
-    # "client",   # ← 削除
-    # "map_data",   # ← 削除
     "num_shelter",
     "num_transport",
 ]:
@@ -174,9 +172,9 @@ root_dir = os.getcwd()  # 作業ディレクトリを基準にファイルを読
 node_data = "kyoten_geocode.json"        # 拠点データ(JSON)
 num_of_people = "number_of_people.csv"  # 被災者数データ(CSV)
 
-toyohashi_geojson = os.path.join(root_dir, "toyohashi.geojson")   # 豊橋市域だけの GeoJSON
+toyohashi_geojson = os.path.join(root_dir, "toyohashi.geojson")   # 対象市域だけの GeoJSON
 
-route_file = "path_list_toyohashi.json"  # 経路リストデータ(JSON)
+route_file = "path_list.json"  # 経路リストデータ(JSON)
 Map_Tile = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'  # 背景地図タイルURL
 
 #################################
