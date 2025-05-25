@@ -399,6 +399,12 @@ def set_map_data():
         map_data['path_d'] = pd.read_json(
             os.path.join(root_dir, route_file)
         )
+        # --- 追加: カラム型の正規化 ---------------------------
+        map_data['path_d']['start_node'] = map_data['path_d']['start_node'].astype(int)
+        map_data['path_d']['goal_node']  = map_data['path_d']['goal_node'].astype(int)
+        map_data['path_d']['route']      = map_data['path_d']['route'].apply(
+            lambda lst: [int(n) for n in lst]
+        )
     except FileNotFoundError as e:
         st.error(f"{route_file} が見つかりません: {e}")
         st.stop()
