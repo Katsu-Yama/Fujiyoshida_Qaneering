@@ -41,12 +41,12 @@ time_annering = 10000
 
 ##############################
 # 対象とする都道府県、市区名(Open Street Mapのロードデータ使用範囲を指定）
-state_name = 'Aichi'
-city_name = 'Toyohashi'
+state_name = 'Yamanashi'
+city_name = 'Fujiyoshida'
 
 ##############################
 # 対象地域のマップ表示中心座標
-mapcenter = [34.7691972, 137.3914667]   #豊橋市役所
+mapcenter = [35.4874795, 138.8078556]   #富士吉田市役所
 
 ##############################
 # 一人当たりの必要物資重量(Weight of supplies needed per person)
@@ -56,7 +56,7 @@ wgt_per = 4.0   # Kg
 # Streamlit アプリのページ設定
 #########################################
 st.set_page_config(
-    page_title="豊橋市　救援物資配送_最適ルート",  # ブラウザタブタイトル
+    page_title="富士吉田市周辺　救援物資配送_最適ルート",  # ブラウザタブタイトル
     page_icon="🗾",  # タブアイコン
     layout="wide"  # ページレイアウトを横幅いっぱいに設定
 )
@@ -364,7 +364,7 @@ def set_map_data():
     try:
         map_data['gep_map'] = gpd.read_file(toyohashi_geojson)
     except Exception as e:
-        st.error(f"豊橋市 GeoJSON 読み込み失敗: {e}")
+        st.error(f"GeoJSON 読み込み失敗: {e}")
         st.stop()
 
     # 経路リスト
@@ -599,8 +599,7 @@ def sovle_annering(model, client, num_cal, timeout):
 # ここからStreamlit本体
 ########################################
 # ヘッダー表示
-#st.markdown('<div class="Qheader"><span class="Qtitle">Q-LOGIQ</span> <span class="caption">Quantum Logistics Intelligence & Quality Optimization  created by WINKY Force</span></div>', unsafe_allow_html=True)
-st.markdown('<div class="Qheader"><span class="Qtitle">えるくお</span> <span class="caption">--Emergency Logistics Quantum Optiviser-- Created by WINKY Force</span></div>', unsafe_allow_html=True)
+# st.markdown('<div class="Qheader"><span class="Qtitle">えるくお</span> <span class="caption">--Emergency Logistics Quantum Optiviser-- Created by WINKY Force</span></div>', unsafe_allow_html=True)
 
 # カラム分割
 gis_st, anr_st = st.columns([2, 1])
