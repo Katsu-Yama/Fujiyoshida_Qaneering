@@ -172,7 +172,7 @@ root_dir = os.getcwd()  # 作業ディレクトリを基準にファイルを読
 node_data = "fujiyoshida_kyoten_geocode.json"        # 拠点データ(JSON)
 num_of_people = "number_of_people.csv"  # 被災者数データ(CSV)
 
-toyohashi_geojson = os.path.join(root_dir, "fujiyoshida_oshino.geojson")   # 対象市域だけの GeoJSON
+geojson_file = os.path.join(root_dir, "fujiyoshida_oshino.geojson")   # 対象市域だけの GeoJSON
 
 route_file = "path_list_fujiyoshida.json"  # 経路リストデータ(JSON)
 Map_Tile = 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'  # 背景地図タイルURL
@@ -360,7 +360,7 @@ def set_map_data():
     
     # 行政区域GeoJSON（あらかじめ対象市域のみを出力したファイルを直接読み込む）
     try:
-        map_data['gep_map'] = gpd.read_file(toyohashi_geojson)
+        map_data['gep_map'] = gpd.read_file(geojson_file)
     except Exception as e:
         st.error(f"GeoJSON 読み込み失敗: {e}")
         st.stop()
@@ -379,7 +379,7 @@ def set_map_data():
     ox.settings.timeout = 180    # OSMnx のリクエストタイムアウトを 180 秒に
 
     # pickle キャッシュ読み込み or 無ければ取得して保存
-    graph_pickle = os.path.join(root_dir, 'toyohashi_drive_graph.pkl')
+    graph_pickle = os.path.join(root_dir, 'drive_graph.pkl')
     if os.path.exists(graph_pickle):
         # pickle があれば読み込む
         with open(graph_pickle, 'rb') as f:
